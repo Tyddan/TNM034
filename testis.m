@@ -7,8 +7,8 @@ bw = 1-imbinarize(a);
 bw = imrotate(bw, 0.47);
 h = sum(bw,2);
 
-thresh = 300;
-h = bw > thresh;
+threshHold = 300;
+h = bw > threshHold;
 
 [pks, locs] = findpeaks(double(h));
 imshow(bw)
