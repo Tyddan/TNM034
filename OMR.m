@@ -1,2 +1,2 @@
 
-tnm034('im10c.jpg');
+tnm034('im1s.jpg');
