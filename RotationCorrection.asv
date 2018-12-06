@@ -11,9 +11,10 @@ function imagereturned = RotationCorrection(image, precision)
     [~, column] = max(data);          % the column with the crispiest peaks
     angle = T(column);               % column to degrees 
     if angle <= 20 & angle >= -20
-        image = imrotate(image, -0.47);
-        imagereturned = imrotate(image,angle);
-        imagereturned = resize()
+        imagebin = 1-imbinarize(image);
+        imagebin = imrotate(imagebin, -0.47,'nearest','crop');
+        imagereturned = imrotate(imagebin,angle,'nearest','crop');
+%         imagereturned = imresize(imagereturned, [size(image(:,1)) size(image(1,:))]);
     else
         imagereturned = image;
     end

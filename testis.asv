@@ -3,7 +3,7 @@ clc
 
 precision = 0.05; % precision of rotation in percent 
 
-image=imread('im1s.jpg'); 
+image=imread('im13s.jpg'); 
 image = rgb2gray(image);
 
 [peaks, stafflocations, imrotated] = GetStaffLines(image,precision);
@@ -12,9 +12,12 @@ figure(3);
 imshow(imrotated)
 hold on
 for i = 1:size(stafflocations,1)
-   plot([1;size(imrotated,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
+   plot([1;size(bw,2)], [locs(i,1);locs(i,1)] , 'r');
 end
 
+hold on
+plot(h,1:size(h));
+hold off
 %%
 % Bw2 = bwmorph(bw,'open');
 % figure(3);
