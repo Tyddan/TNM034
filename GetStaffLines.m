@@ -15,8 +15,6 @@ h = sum(bw1,2);
 thresh = 340; 
 h = h > thresh;
 
-figure(2);
-plot(h,1:size(h));
 
 [pks, locs] = findpeaks(double(h));
 end

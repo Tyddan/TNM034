@@ -7,12 +7,13 @@ image=imread('im1s.jpg');
 image = rgb2gray(image);
 
 [peaks, stafflocations, imrotated] = GetStaffLines(image,precision);
+image = removeGcleff(imrotated);
 
 figure(3);
-imshow(imrotated)
+imshow(image)
 hold on
 for i = 1:size(stafflocations,1)
-   plot([1;size(imrotated,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
+   plot([1;size(image,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
 end
 
 %%
@@ -30,10 +31,10 @@ end
 % img = bwmorph(img,'majority');
 
 
-[whiteSpaceMedian, segmentLocs] = whitespacelength(locs,bw);
+[whiteSpaceMedian, segmentLocs] = whitespacelength(stafflocations,image);
 
 figure(3);
-imshow(bw);
+imshow(image);
 hold on; 
 for i=1:size(segmentLocs,2)
     plot([1;size(bw,2)],[segmentLocs(1,i);segmentLocs(1,i)],'m');
@@ -41,8 +42,8 @@ end
 hold off;
 
 
-for j = 1:size(locs)
-    locsIncreased(j,:) = [locs(j,1)-1 locs(j,1) locs(j,1)+1];  
+for j = 1:size(stafflocations)
+    locsIncreased(j,:) = [stafflocations(j,1)-1 stafflocations(j,1) stafflocations(j,1)+1];  
 end
 
 
@@ -54,24 +55,24 @@ end
 
 
 %%
-he = 1;
-lines(1) = locs(1)-round(whiteSpaceMedian/2);
-for l = 2:2:20
-    if he <= 16
-        lines(l) = locs(he);
-        lines(l+1) = locs(he)+round(whiteSpaceMedian/2);
-        he = he + 1;
-    end
-    if he > 16
-        lines(l+1) = lines(l)+round(whiteSpaceMedian/2);
-    end
-end
+% he = 1;
+% lines(1) = stafflocations(1)-round(whiteSpaceMedian/2);
+% for l = 2:2:20
+%     if he <= 16
+%         lines(l) = locs(he);
+%         lines(l+1) = locs(he)+round(whiteSpaceMedian/2);
+%         he = he + 1;
+%     end
+%     if he > 16
+%         lines(l+1) = lines(l)+round(whiteSpaceMedian/2);
+%     end
+% end
 
 
 %%
 
 SE = strel('disk',4);
-bw2 = imopen(bw,SE);
+bw2 = imopen(image,SE);
 figure(4);
 imshow(bw2,[]);
 
@@ -95,7 +96,7 @@ end
 
 
 
-for i = 1:2*size(locs)
+for i = 1:2*size(stafflocations)
    for k = 1:size(intCentroids(:,2))
        if ismember(lines(1,i),compCent(k,:))
            strout = [strout, {notes(i,1)}];

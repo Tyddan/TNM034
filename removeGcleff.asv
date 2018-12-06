@@ -1,0 +1,25 @@
+% function image = removeGcleff(im)
+% 
+% 
+% 
+% end
+precision = 0.05;
+image=imread('im1s.jpg'); 
+image = rgb2gray(image);
+
+[pks, locs, imagerotated] = GetStaffLines(image, precision);
+
+h = sum(imagerotated,1);
+
+[rows, columns] = size(imagerotated);
+plot(1:columns, h);
+
+thresh = 100; 
+h = h > thresh;
+
+[vpks, Gcleffloc] = findpeaks(double(h));
+
+imagerotated = imagerotated(Gcleffloc:ke,:);
+
+figure(2);
+imshow(imagerotated);
