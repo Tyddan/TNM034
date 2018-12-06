@@ -178,11 +178,13 @@ end
 output = pitchLines;
 %%
 
-image=imread('im9c.jpg'); 
-image = rgb2gray(image);
-[peaks, stafflocations, im] = GetStaffLines(image,precision);
 
-image = im(stafflocations(1)-(whiteSpaceMedian*4):stafflocations(5)+(whiteSpaceMedian*4),:);
+
+
+
+imshow(maskedImage);
+
+%%
 %imshow(image);
 k = 1;
 smallPic = {};
@@ -190,9 +192,19 @@ filtredPic = {};
 L = {};
 s = {};
 centroids = {};
+image=imread('im9c.jpg'); 
+image = rgb2gray(image);
+%maskedImage = image;
+[rows, cols] = size(image);
+
+%imag = maskedImage;
 
 for i = 1:(length(peaks)/5)
-    smallPic{i} = im(stafflocations(k)-(whiteSpaceMedian*4):stafflocations(k+4)+(whiteSpaceMedian*4),:);
+    maskedImage = im;
+    mask = false(rows,cols);
+    mask(stafflocations(k)-(whiteSpaceMedian*4):stafflocations(k+4)+(whiteSpaceMedian*4),:) = true;
+    maskedImage(~mask) = 0;
+    ima{i} = maskedImage;
     k = k + 5;
 end
 
@@ -200,7 +212,7 @@ end
 SE = strel('disk',floor(whiteSpaceMedian/2));
 
 for a = 1:(length(peaks)/5)
-    filtredPic{a} = imopen(smallPic{a},SE);
+    filtredPic{a} = imopen(ima{a},SE);
 end
 %%
 
@@ -228,8 +240,12 @@ hold off
 
 
 %%
-
-[pitchLines] = createLines(stafflocations,whiteSpaceMedian);
+pitchLines = {};
+k = 1;
+for i = 1:(length(peaks)/5)
+    [pitchLines{i}] = createLines(stafflocations(k:k+4,:),whiteSpaceMedian);
+    k = k + 5;
+end
 
 %%
 for i = length(centroids)
@@ -241,10 +257,12 @@ end
 
 
 %%
-for i = length(centroids)
-    for j = length(centroids{i})
-        
-        indexhej = nearestNeighbor(pitchLines{:,1},round(centroids{1,i}(j,2)));
+
+
+for i = 1:length(centroids)
+    for j = 1:length(centroids{i})
+        indexhej = nearestPoint(centroids{1,i}(j,2),cell2mat(pitchLines{1,i}(:,1)));
+        strout = [strout, pitchLines{1,i}(indexhej,2)];
     end
 end
 
