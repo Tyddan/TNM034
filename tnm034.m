@@ -38,7 +38,7 @@ dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
 %%
 image = {};
 for i = 1:(length(peaks)/5)
-    image{i} = removeEightNotes(whiteSpaceMedian,dividedImage{i});
+    image{i} = removeSixteenNotes(whiteSpaceMedian,dividedImage{i});
 end
 
 %Centroids

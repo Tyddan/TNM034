@@ -1,4 +1,4 @@
-function imageret = removeSixteennotes(median, originalimage)
+function imageret = removeSixteenNotes(median, originalimage)
     SE = strel('line', median+3, 0);
     image = imopen(originalimage,SE);
     image = bwmorph(image,'open');
