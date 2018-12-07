@@ -16,6 +16,5 @@ h = sum(bw1,2);
 thresh = 340; 
 h = h > thresh;
 
-
 [pks, locs] = findpeaks(double(h));
 end

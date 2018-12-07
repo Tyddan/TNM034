@@ -1,6 +1,5 @@
-function [pitchLines] = findPitchLines(stafflocs, whiteSpace, pks)
-%UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+function pitchLines = findPitchLines(stafflocs, whiteSpace, pks)
+
 pitchLines = {};
 k = 1;
 for i = 1:(length(pks)/5)

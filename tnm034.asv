@@ -11,7 +11,7 @@ function strout = tnm034(testImage)
     % end
 
 %Whitespace
-[whiteSpaceMedian, segmentLocs] = whitespaceLength(staffLocations,imageRotated);
+whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
 
 % Look at things
     % figure();
@@ -28,7 +28,8 @@ function strout = tnm034(testImage)
     % end
     
 %Create a mask
-[dividedImage,peaks] = createMask(imageRotated,whiteSpaceMedian);
+dividedImage = createMask(imageRotated,whiteSpaceMedian, staffLocations, peaks);
+
 
 %Centroids
 centroids = findCentroids(dividedImage,peaks);

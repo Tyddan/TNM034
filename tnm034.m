@@ -1,29 +1,49 @@
-function strout = tnm034(im)
-im = imread(im);
-figure(1)
-imshow(im)
-% Im: Input image of captured sheet music. Im should be in
-% double format, normalized to the interval [0,1]
+function strout = tnm034(testImage)
 
-% strout: The resulting character string of the detected
-% notes. The string must follow a pre-defined format.
-imr = imrotate(im, 33);
-imgray = rgb2gray(imr);
+if size(testImage,3)==3
+    testImage = rgb2gray(testImage);
+end
 
-BW = edge(imgray, 'canny');
+% Get stafflines
+[peaks, staffLocations, imageRotated] = GetStaffLines(testImage);
+%%
+% Look at things
+    %figure();
+    %imshow(imageRotated)for i = 1:size(stafflocations,1)
+    % for i = 1:size(stafflocations,1)
+    %    plot([1;size(imrotated,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
+    % end
 
-[H,theta,rho] = hough(BW);
+%Whitespace
+whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
+%%
+% Look at things
+    % figure();
+    % imshow(imrotated);
+    % hold on;
+    % for i=1:size(segmentLocs,2)
+    %     plot([1;size(imrotated,2)],[segmentLocs(1,i);segmentLocs(1,i)],'m');
+    % end
+    % hold off;
+    % 
+    % 
+    % for j = 1:size(stafflocations)
+    %     locsIncreased(j,:) = [stafflocations(j,1)-1 stafflocations(j,1) stafflocations(j,1)+1];  
+    % end
+image = removeGcleff(imageRotated);
+    
+%Create a mask
+dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
+%%
 
-imshow(H,[],'XData',theta,'YData',rho,'InitialMagnification','fit');
-xlabel('\theta (degrees)')
-ylabel('\rho')
-axis on
-axis normal 
-hold on
-
-% imRot = imrotate(im, theta);
-% figure(2)
-% imshow(imRot)
+%Centroids
+centroids = findCentroids(dividedImage,peaks);
+%%
+% Pitchlines
+pitchLines = findPitchLines(staffLocations, whiteSpaceMedian, peaks);
+%%
+% Find note
+strout = findNote(centroids, pitchLines);
 
 
 end
