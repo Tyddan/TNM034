@@ -6,6 +6,7 @@ function notes = findNote(cent,lines)
             indexOfNote = nearestPoint(cent{1,i}(j,2),cell2mat(lines{1,i}(:,1)));
             notes = [notes, cell2mat(lines{1,i}(indexOfNote,2))];
         end
+        notes = [notes, 'n'];
     end
 end
 
