@@ -1,4 +1,4 @@
-% function strout = tnm034(testImage)
+function strout = tnm034(testImage)
 
 
 % Get stafflines
@@ -47,5 +47,5 @@ pitchLines = findPitchLines(staffLocations, whiteSpaceMedian, peaks);
 strout = findNote(centroids, pitchLines);
 
 
-% end
+end
 
