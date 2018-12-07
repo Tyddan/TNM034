@@ -1,15 +1,13 @@
-function strout = tnm034(testImage)
+% function strout = tnm034(testImage)
 
-if size(testImage,3)==3
-    testImage = rgb2gray(testImage);
-end
 
 % Get stafflines
 [peaks, staffLocations, imageRotated] = GetStaffLines(testImage);
 %%
 % Look at things
-    %figure();
-    %imshow(imageRotated)for i = 1:size(stafflocations,1)
+    figure();
+    imshow(imageRotated)
+    %for i = 1:size(stafflocations,1)
     % for i = 1:size(stafflocations,1)
     %    plot([1;size(imrotated,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
     % end
@@ -31,7 +29,10 @@ whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
     %     locsIncreased(j,:) = [stafflocations(j,1)-1 stafflocations(j,1) stafflocations(j,1)+1];  
     % end
 image = removeGcleff(imageRotated);
+
+%%
     
+imshow(image)
 %Create a mask
 dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
 %%
@@ -46,5 +47,5 @@ pitchLines = findPitchLines(staffLocations, whiteSpaceMedian, peaks);
 strout = findNote(centroids, pitchLines);
 
 
-end
+% end
 

@@ -7,7 +7,7 @@ close all;
 clc;
 
 %% Load image
-functionImage = imread('im9c.jpg');
+functionImage = imread('im1s.jpg');
 functionImage = rgb2gray(functionImage);
 
 

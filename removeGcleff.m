@@ -5,7 +5,7 @@ function image = removeGcleff(im)
 
     [rows, columns] = size(im);
 
-    thresh = 150; 
+    thresh = 100; 
     h = h > thresh;
 
     [vpks, Gcleffloc] = findpeaks(double(h));
