@@ -1,0 +1,42 @@
+
+
+testImage = imread('im13s.jpg');
+testImage = rgb2gray(testImage);
+
+[peaks, staffLocations, imageRotated] = GetStaffLines(testImage);
+
+whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
+
+image = removeGcleff(imageRotated);
+figure(1);
+imshow(image);
+
+dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
+
+%%
+figure(1)
+imshow(dividedImage{1})
+
+im = dividedImage{1};
+%%
+SE = strel('line', whiteSpaceMedian+3, 0);
+image = imopen(dividedImage{1},SE);
+image = bwmorph(image,'open');
+image = bwmorph(image,'thicken');
+% 
+figure(2)
+imshow(image)
+
+[rows, columns] = size(image);
+h = sum(image,1);
+
+thresh = 8;
+h = h > thresh;
+
+
+[nrofsixth, locsixth] = findpeaks(double(h));
+
+for i = 1:length(nrofsixth)
+    im(:,locsixth(i)-(1.1*whiteSpaceMedian):locsixth(i)+(2.1*whiteSpaceMedian)) = 0;
+end
+
