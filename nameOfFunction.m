@@ -18,7 +18,7 @@ function [outs] = nameOfFunction(points,altImage, median)
 % thresh = 8;
 % h = h > thresh;
 %%
-SE = strel('line', median, 0);
+SE = strel('line', floor(median/2+1), 0);
 img = imopen(altImage,SE);
 img = bwmorph(img,'open');
 img = bwmorph(img,'thicken');
@@ -26,7 +26,7 @@ img = bwmorph(img,'thicken');
 [rows, cols] = size(img);
 
 horizontalProfile = sum(img, 1); 
-thresh = 10;
+thresh = 11;
 horizontalProfile = horizontalProfile > thresh;
 %figure; plot(1:cols,horizontalProfile); 
 [pks, locs] = findpeaks(double(horizontalProfile));
