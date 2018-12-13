@@ -35,11 +35,11 @@ image = removeGcleff(imageRotated);
 %imshow(image)
 %Create a mask
 dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
-%%
-image = {};
-for i = 1:(length(peaks)/5)
-    image{i} = removeSixteenNotes(whiteSpaceMedian,dividedImage{i});
-end
+
+%% Remove siteenth notes
+
+
+image = removeSixteenNotes(whiteSpaceMedian,dividedImage,peaks);
 
 %Centroids
 centroids = findCentroids(image,peaks,whiteSpaceMedian);
