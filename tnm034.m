@@ -1,8 +1,7 @@
 function strout = tnm034(testImage)
 
-
 % Get stafflines
-[peaks, staffLocations, imageRotated] = GetStaffLines(testImage);
+[peaks, staffLocations, imageRotated] = GetStaffLines(functionImage);
 %%
 % Look at things
 %     figure();
@@ -31,16 +30,17 @@ whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
 image = removeGcleff(imageRotated);
 
 %%
-    
 %imshow(image)
 %Create a mask
 dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
-%%
+
+%% 
+%Remove sixteenNotes
 image = {};
 for i = 1:(length(peaks)/5)
     image{i} = removeSixteenNotes(whiteSpaceMedian,dividedImage{i});
 end
-
+%%
 %Centroids
 centroids = findCentroids(image,peaks,whiteSpaceMedian);
 %%
@@ -48,8 +48,7 @@ centroids = findCentroids(image,peaks,whiteSpaceMedian);
 pitchLines = findPitchLines(staffLocations, whiteSpaceMedian, peaks);
 %%
 % Find note
-strout = findNote(centroids, pitchLines);
-
+strout = findNote(centroids, pitchLines, image, whiteSpaceMedian);
 
 end
 

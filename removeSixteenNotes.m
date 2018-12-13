@@ -1,5 +1,5 @@
 function imageret = removeSixteenNotes(median, originalimage)
-    SE = strel('line', median+3, 0);
+    SE = strel('line', median, 0);
     image = imopen(originalimage,SE);
     image = bwmorph(image,'open');
     image = bwmorph(image,'thicken');
@@ -8,7 +8,7 @@ function imageret = removeSixteenNotes(median, originalimage)
     [rows, columns] = size(image);
     h = sum(image,1);
 
-    thresh = 8;
+    thresh = 17;
     h = h > thresh;
 
     [nrofsixth, locsixth] = findpeaks(double(h));
