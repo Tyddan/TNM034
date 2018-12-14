@@ -1,23 +1,5 @@
-function [outs] = nameOfFunction(points,altImage, median)
+function [outs] = findQuavers(points,altImage, median)
 
-
-
-
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
-% SE = strel('line', median, 90);
-% image = imopen(originalimage,SE);
-% image = bwmorph(image,'open');
-% image = bwmorph(image,'thicken');
-%     
-% 
-% [rows, columns] = size(image{1});
-% h = sum(image{1},1);
-% 
-% thresh = 8;
-% h = h > thresh;
-%%
 SE = strel('line', floor(median/2+1), 0);
 img = imopen(altImage,SE);
 img = bwmorph(img,'open');

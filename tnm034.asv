@@ -1,16 +1,16 @@
 function strout = tnm034(testImage)
 
-
 % Get stafflines
-[peaks, staffLocations, imageRotated] = GetStaffLines(testImage);
-%%
-% Look at things
+[peaks, staffLocations, imageRotated] = GetStaffLines(functionImage);
+%
+%Look at things
 %     figure();
 %     imshow(imageRotated)
-    %for i = 1:size(stafflocations,1)
-    % for i = 1:size(stafflocations,1)
-    %    plot([1;size(imrotated,2)], [stafflocations(i,1);stafflocations(i,1)] , 'r');
-    % end
+%     hold on
+%     for i = 1:size(staffLocations,1)
+%        plot([1;size(imageRotated,2)], [staffLocations(i,1);staffLocations(i,1)] , 'r');
+%     end
+%     hold off
 
 %Whitespace
 whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
@@ -31,23 +31,24 @@ whiteSpaceMedian = whitespaceLength(staffLocations,imageRotated);
 image = removeGcleff(imageRotated);
 
 %%
-    
 %imshow(image)
 %Create a mask
 dividedImage = createMask(image,whiteSpaceMedian, staffLocations, peaks);
+
+%% 
+%Remove sixteenNotes
+
+image = removeSixteenNotes(whiteSpaceMedian,dividedImage,peaks);
+
 %%
-
-image = removeEightNotes(whiteSpaceMedian,)
-
 %Centroids
-centroids = findCentroids(dividedImage,peaks,whiteSpaceMedian);
+centroids = findCentroids(image,peaks,whiteSpaceMedian);
 %%
 % Pitchlines
 pitchLines = findPitchLines(staffLocations, whiteSpaceMedian, peaks);
 %%
 % Find note
-strout = findNote(centroids, pitchLines);
-
+strout = findNote(centroids, pitchLines, image, whiteSpaceMedian);
 
 end
 
